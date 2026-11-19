@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/spell_model.dart';
 import '../services/api_service.dart';
+import '../services/notification_service.dart';
 import '../utils/custom_snackbar.dart';
 import 'favorite_spells_view.dart';
 import 'login_view.dart';
@@ -53,6 +55,7 @@ class _SpellsViewState extends State<SpellsView> {
         title: 'Add!',
         message: '${spell.spell} successfully added to fav list!',
       );
+      await NotificationService.showAddNotification(spellName: spell.spell);
     }
   }
 
@@ -86,7 +89,8 @@ class _SpellsViewState extends State<SpellsView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false, // Menghilangkan tombol back default jika ada
+        automaticallyImplyLeading:
+            false, // Menghilangkan tombol back default jika ada
         title: const Text(
           'Harry Potter Spells Gallery',
           style: TextStyle(

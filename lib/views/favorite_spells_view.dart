@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/spell_model.dart';
 import '../services/notification_service.dart';
+import '../utils/custom_snackbar.dart';
 
 // Halaman Favorite Spells View
 // Menampilkan daftar mantra yang telah difavoritkan menggunakan Hive
@@ -124,10 +125,16 @@ class FavoriteSpellsView extends StatelessWidget {
                       color: Colors.redAccent,
                     ),
                     onPressed: () async {
-                      // 1. Hapus mantra dari Hive
                       await box.delete(spell.spell);
 
-                      // 2. Munculkan notifikasi langsung (Immediate Notification) sesuai ketentuan
+                      if (!context.mounted) return;
+
+                      CustomSnackBar.showError(
+                        context: context,
+                        title: 'Remove!',
+                        message: '${spell.spell} removed from fav list!',
+                      );
+
                       await NotificationService.showDeleteNotification(
                         spellName: spell.spell,
                       );

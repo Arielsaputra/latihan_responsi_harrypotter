@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../utils/custom_snackbar.dart';
 import 'character_view.dart';
 
@@ -17,9 +18,9 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _passwordController = TextEditingController();
 
   // Akun hardcoded sesuai ketentuan responsi
-  // Username: admin, Password: admin
-  final String _hardcodedUsername = 'admin';
-  final String _hardcodedPassword = 'admin';
+  // Username: Ariel, Password: 12345
+  final String _hardcodedUsername = 'Ariel';
+  final String _hardcodedPassword = '12345';
 
   // State untuk melihat/menyembunyikan password
   bool _obscurePassword = true;
@@ -47,7 +48,8 @@ class _LoginViewState extends State<LoginView> {
     }
 
     // Pengecekan logika login (Hardcoded)
-    if (inputUsername == _hardcodedUsername && inputPassword == _hardcodedPassword) {
+    if (inputUsername == _hardcodedUsername &&
+        inputPassword == _hardcodedPassword) {
       // Simpan session login ke SharedPreferences
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('is_logged_in', true);
@@ -103,9 +105,10 @@ class _LoginViewState extends State<LoginView> {
               // Form Input Username
               TextField(
                 controller: _usernameController,
+                autocorrect: false,
+                enableSuggestions: false,
                 decoration: InputDecoration(
-                  labelText: 'Username',
-                  hintText: 'admin',
+                  hintText: 'Username',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -121,9 +124,10 @@ class _LoginViewState extends State<LoginView> {
               TextField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
+                autocorrect: false,
+                enableSuggestions: false,
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'admin',
+                  hintText: 'Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -134,7 +138,9 @@ class _LoginViewState extends State<LoginView> {
                   // Tombol toggle tampilkan password
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: Colors.grey,
                     ),
                     onPressed: () {
@@ -171,11 +177,8 @@ class _LoginViewState extends State<LoginView> {
               ),
 
               const SizedBox(height: 12),
+
               // Hint info untuk penguji / praktikan
-              Text(
-                'Hint: Gunakan username "admin" dan password "admin"',
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-              ),
             ],
           ),
         ),
